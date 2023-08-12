@@ -1,38 +1,19 @@
 <script setup>
-import AParfum from '../components/AParfum.vue'
+import FrontPage from '../components/FrontPage.vue'
+import Step1 from '../components/Step1.vue'
+import Step2 from '../components/Step2.vue'
+
+import { useSelectionStore } from '@/stores/selection'
+
+const selectionStore = useSelectionStore()
 
 </script>
 
-<script>
-export default {
-  data() {
-    return {
-      parfums: [],
-    }
-  },
-  methods: {
-    async getParfums() {
-      try {
-        const response = await fetch('http://localhost:3000/icecreams')
-        const icecreams = await response.json()
-        this.parfums = icecreams
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  },
-  created() {
-    this.getParfums()
-  }
-}
-</script>
 
 <template>
-  <main>
-    <AParfum 
-      v-for="parfum in parfums"
-      :name="parfum.name"
-      :id="parfum.id"
-    />
+  <main class="bg-pink-500 h-[400vh] w-screen">
+    <FrontPage></FrontPage>
+    <Step1></Step1>
+    <Step2 v-if="selectionStore.isSaved === true"></Step2>
   </main>
 </template>

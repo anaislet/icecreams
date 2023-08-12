@@ -1,4 +1,9 @@
 <script setup>
+import IconPlus from '@/assets/icon-plus.svg'
+import { useSelectionStore } from '@/stores/selection'
+
+const selectionStore = useSelectionStore()
+
 defineProps({
   name: {
     type: String,
@@ -11,15 +16,22 @@ defineProps({
 })
 
 function displayIcecreamInformations(icecreamName) {
-  console.log(icecreamName)
+  selectionStore.addFlavours(icecreamName)
+  console.log(selectionStore.flavours)
 }
 </script>
 
 <template>
-  <div 
-    class="greetings"
-    @click="displayIcecreamInformations(name)"
+  <div
+    class="flex w-32 h-32 p-2 bg-pink-red justify-center items-end"
   >
-    <h1>{{ name }} ({{ id }})</h1>
+  <div class="flex flex-row justify-between">
+    <h1 class="font-montserrat text-xl">{{ name }}</h1>
+    <img 
+      :src="IconPlus" 
+      class="w-7 cursor-pointer"
+      @click="displayIcecreamInformations(name)"
+    />
+  </div>
   </div>
 </template>
