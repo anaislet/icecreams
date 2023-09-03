@@ -6,6 +6,7 @@ export const useSelectionStore = defineStore("selection", () => {
   const isFull = computed(() => (flavours.value.length === 3 ? true : false));
   const isSaved = ref(false);
   const isInformationsSaved = ref(false);
+  const compositionCount = ref(0)
 
   function addFlavours(infos) {
     if (!isFull.value) {
@@ -26,14 +27,20 @@ export const useSelectionStore = defineStore("selection", () => {
     isInformationsSaved.value = true;
   }
 
+  function setCompositionCount(count) {
+    compositionCount.value = count
+  }
+
   return {
     flavours,
     isFull,
     isSaved,
     isInformationsSaved,
+    compositionCount,
     addFlavours,
     removeFlavour,
     save,
     acceptInformations,
+    setCompositionCount
   };
 });

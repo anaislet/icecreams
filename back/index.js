@@ -23,5 +23,6 @@ app.get("/icecream/:name", (req, res, next) => {
 
 app.post("/composition/:flavor1/:flavor2/:flavor3", async (req, res, next) => {
   const icecreams = await postIcecream(req.params.flavor1, req.params.flavor2, req.params.flavor3)
+  console.log(icecreams)
   res.json(icecreams);
 });

@@ -75,7 +75,7 @@ function containingGluten(flavours) {
           class="w-2/3 h-20"
           v-model="title"
         />
-        <div>Cette glace a déjà été créé 17 fois !</div>
+        <div>Cette glace a déjà été créé {{ selectionStore.compositionCount }} fois !</div>
         <p v-if="alcool == true">Cette coupe glacée contient de l'alcool.</p>
         <p v-else>Cette coupe glacée ne contient pas d'alcool.</p>
         <p v-if="gluten == true">Cette coupe glacée contient du gluten.</p>

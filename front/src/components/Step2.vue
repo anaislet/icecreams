@@ -13,12 +13,11 @@ onMounted(() => {
 
 async function goToStep3() {
   try {
-    //   await fetch(`http://localhost:3000/composition/${selectionStore.flavours[0]}/${selectionStore.flavours[1]}/${selectionStore.flavours[2]}`, {
-    //     method: 'POST'
-    //   })
-    await fetch(`http://localhost:3000/composition/4/4/4`, {
-      method: "POST",
-    });
+      const response = await fetch(`http://localhost:3000/composition/${selectionStore.flavours[0].id}/${selectionStore.flavours[1].id}/${selectionStore.flavours[2].id}`, {
+        method: 'POST'
+      })
+      const composition = await response.json()
+      selectionStore.setCompositionCount(composition.count)
   } catch (error) {
     console.log(error);
   }
