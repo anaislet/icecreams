@@ -1,6 +1,6 @@
 //https://medium.com/@onejohi/building-a-simple-rest-api-with-nodejs-and-express-da6273ed7ca9
 
-const { getAllIcecreams } = require("./bdd")
+const { getAllIcecreams, postIcecream } = require("./bdd")
 
 var express = require("express")
 var cors = require("cors")
@@ -21,6 +21,7 @@ app.get("/icecream/:name", (req, res, next) => {
   res.json({ "message": `toutes les informations concernant le parfum ${icecreamName}` });
 });
 
-app.post("/icecreamcup", (req, res, next) => {
-    
+app.post("/composition/:flavor1/:flavor2/:flavor3", async (req, res, next) => {
+  const icecreams = await postIcecream(req.params.flavor1, req.params.flavor2, req.params.flavor3)
+  res.json(icecreams);
 });

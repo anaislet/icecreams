@@ -7,8 +7,13 @@ async function getAllIcecreams() {
     const sql = 'SELECT * FROM flavors;'
 
     const icecreams = await sequelize.query(sql, {type: QueryTypes.SELECT})
-    console.log(icecreams)
     return icecreams
 }
 
-module.exports = { getAllIcecreams }
+async function postIcecream(flavor1, flavor2, flavor3) {
+    const sql = `INSERT INTO compositions VALUES (DEFAULT, ${flavor1}, ${flavor2}, ${flavor3}, 1);`
+    const icecreams = await sequelize.query(sql, {type: QueryTypes.INSERT})
+    return icecreams
+}
+
+module.exports = { getAllIcecreams, postIcecream }
