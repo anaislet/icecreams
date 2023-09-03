@@ -1,24 +1,21 @@
 <script setup>
-import { useSelectionStore } from '@/stores/selection'
+import { useSelectionStore } from "@/stores/selection";
 
-const selectionStore = useSelectionStore()
-
+const selectionStore = useSelectionStore();
 
 defineProps({
-  name: {
+  color: {
     type: String,
-    required: true
-  }
-})
-
-function removeFlavour(flavour) {
-    selectionStore.removeFlavour(flavour)
-}
+    required: true,
+  },
+});
 </script>
 
 <template>
-    <div class="flex w-[160px] h-[160px] p-2 bg-pink-red justify-center items-end mb-5 rounded-full">
-        <div class="flex flex-row justify-between">
+  <div
+    class="flex w-[160px] h-[160px] p-2 justify-center items-end mb-5 rounded-full"
+    :style="{ backgroundColor: color }"
+  >
+    <div class="flex flex-row justify-between"></div>
   </div>
-    </div>
 </template>

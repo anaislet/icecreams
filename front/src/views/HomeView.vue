@@ -1,15 +1,13 @@
 <script setup>
-import FrontPage from '../components/FrontPage.vue'
-import Step1 from '../components/Step1.vue'
-import Step2 from '../components/Step2.vue'
-import Step3 from '../components/Step3.vue'
+import FrontPage from "../components/FrontPage.vue";
+import Step1 from "../components/Step1.vue";
+import Step2 from "../components/Step2.vue";
+import Step3 from "../components/Step3.vue";
 
-import { useSelectionStore } from '@/stores/selection'
+import { useSelectionStore } from "@/stores/selection";
 
-const selectionStore = useSelectionStore()
-
+const selectionStore = useSelectionStore();
 </script>
-
 
 <template>
   <main class="bg-pink-500 h-fit w-screen">
