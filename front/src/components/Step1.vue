@@ -15,6 +15,9 @@ export default {
   data() {
     return {
       parfums: [],
+      selectedType: "All",
+      selectedGluten: "All",
+      selectedAlcool: "All",
     };
   },
   methods: {
@@ -27,6 +30,18 @@ export default {
         console.log(error);
       }
     },
+    async selectFlavors(e) {
+      e.preventDefault()
+      e.stopPropagation()
+      console.log(this.selectedType, this.selectedGluten, this.selectedAlcool)
+      try {
+        const response = await fetch(`http://localhost:3000/icecreams?type=${this.selectedType}&gluten=${this.selectedGluten}&alcool=${this.selectedAlcool}`);
+        const icecreams = await response.json();
+        this.parfums = icecreams;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   created() {
     this.getParfums();
@@ -40,6 +55,39 @@ export default {
       Je choisis mes parfums de glace
     </h1>
     <div class="flex flex-row bg-beige mx-10 my-10 p-10 justify-between">
+      <form @submit="selectFlavors">
+        <input name="type" type="radio" id="all" value="All" v-model="selectedType">
+        <label for="all">Tous</label>
+        <br>
+        <input name="type" type="radio" id="icecream" value="Icecream" v-model="selectedType">
+        <label for="icecream">Glace</label>
+        <br>
+        <input name="type" type="radio" id="sorbet" value="Sorbet" v-model="selectedType">
+        <label for="sorbet">Sorbet</label>
+        <br>
+        <br>
+        <input name="gluten" type="radio" id="allGluten" value="All" v-model="selectedGluten">
+        <label for="allGluten">Tous</label>
+        <br>
+        <input name="gluten" type="radio" id="true" value="true" v-model="selectedGluten">
+        <label for="true">Avec gluten</label>
+        <br>
+        <input name="gluten" type="radio" id="false" value="false" v-model="selectedGluten">
+        <label for="false">Sans gluten</label>
+        <br>
+        <br>
+        <input name="alcool" type="radio" id="allAlcool" value="All" v-model="selectedAlcool">
+        <label for="allGluten">Tous</label>
+        <br>
+        <input name="alcool" type="radio" id="true" value="true" v-model="selectedAlcool">
+        <label for="true">Avec alcool</label>
+        <br>
+        <input name="alcool" type="radio" id="false" value="false" v-model="selectedAlcool">
+        <label for="false">Sans alcool</label>
+        <br>
+        <input type="submit" value="Valider">
+      </form>
+
       <div class="flex flex-row w-1/2 justify-between flex-wrap">
         <AParfum
           v-for="parfum in parfums"

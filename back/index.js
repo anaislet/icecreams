@@ -12,7 +12,10 @@ app.listen(3000, () => {
 });
 
 app.get("/icecreams", async (req, res, next) => {
-  const icecreams = await getAllIcecreams()
+  const type = req.query.type
+  const gluten = req.query.gluten
+  const alcool = req.query.alcool
+  const icecreams = await getAllIcecreams(type, gluten, alcool)
  res.json(icecreams);
 });
 

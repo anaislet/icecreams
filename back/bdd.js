@@ -3,8 +3,29 @@ const { Sequelize, QueryTypes } = require('sequelize')
 // const sequelize = new Sequelize('icecream', 'postgres', 'postgres', { host: 'localhost', port: 5432, dialect: 'postgres' })
 const sequelize = new Sequelize('icecreams', 'icecreams', 'berthillon', { host: 'localhost', port: 5432, dialect: 'postgres' })
 
-async function getAllIcecreams() {
-    const sql = 'SELECT * FROM flavors;'
+async function getAllIcecreams(type, gluten, alcool) {
+    let typeQuery = ""
+    let glutenQuery = ""
+    let alcoolQuery  = ""
+    if(type == "Icecream") {
+        typeQuery = " AND icecream = true"
+    }
+    else if (type == "Sorbet") {
+        typeQuery = " AND sorbet = true"
+    }
+    if(gluten == "true") {
+        glutenQuery = " AND gluten = true"
+    }
+    else if (gluten == "false") {
+        glutenQuery = " AND gluten = false"
+    }
+    if(alcool == "true") {
+        alcoolQuery = " AND alcool = true"
+    }
+    else if (alcool == "false") {
+        alcoolQuery = " AND alcool = false"
+    }
+    const sql = `SELECT * FROM flavors WHERE 1=1${typeQuery}${glutenQuery}${alcoolQuery};`
 
     const icecreams = await sequelize.query(sql, {type: QueryTypes.SELECT})
     return icecreams
