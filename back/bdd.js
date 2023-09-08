@@ -54,4 +54,11 @@ async function postIcecream(flavor1, flavor2, flavor3) {
     }
 }
 
-module.exports = { getAllIcecreams, postIcecream }
+async function getAllCategories() {
+
+    const sql = `SELECT category FROM flavors GROUP BY category;`
+
+    const categories = await sequelize.query(sql, {type: QueryTypes.SELECT})
+    return categories
+}
+module.exports = { getAllIcecreams, postIcecream, getAllCategories }

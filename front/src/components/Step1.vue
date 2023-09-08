@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       parfums: [],
+      categories: [],
       selectedType: "All",
       selectedGluten: "All",
       selectedAlcool: "All",
@@ -27,6 +28,15 @@ export default {
         const response = await fetch("http://localhost:3000/icecreams");
         const icecreams = await response.json();
         this.parfums = icecreams;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getCategories() {
+      try {
+        const response = await fetch("http://localhost:3000/categories");
+        const categories = await response.json();
+        this.categories = categories;
       } catch (error) {
         console.log(error);
       }
@@ -44,7 +54,8 @@ export default {
     }
   },
   created() {
-    this.getParfums();
+    this.getParfums()
+    this.getCategories()
   },
 };
 </script>
@@ -88,16 +99,7 @@ export default {
         <br>
         <select v-model="selectedCategory">
           <option value="All">Tous</option>
-          <option value="Les alcoolisées">Les alcoolisées</option>
-          <option value="Les fruits à coques">Les fruits à coques</option>
-          <option value="Les Insolites">Les insolites</option>
-          <option value="Les cafés">Les cafés</option>
-          <option value="Les fruits rouges">Les fruits rouges</option>
-          <option value="Les surprenants">Les surprenants</option>
-          <option value="Les classiques">Les classiques</option>
-          <option value="Les Agrumes">Les agrumes</option>
-          <option value="Les Chocolats">Les chocolats</option>
-          <option value="Les exotiques">Les exotiques</option>
+          <option v-for="category of categories" :value="category.category">{{category.category}}</option>
         </select>
         <br>
         <br>
