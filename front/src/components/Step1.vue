@@ -18,6 +18,7 @@ export default {
       selectedType: "All",
       selectedGluten: "All",
       selectedAlcool: "All",
+      selectedCategory: "All"
     };
   },
   methods: {
@@ -33,9 +34,8 @@ export default {
     async selectFlavors(e) {
       e.preventDefault()
       e.stopPropagation()
-      console.log(this.selectedType, this.selectedGluten, this.selectedAlcool)
       try {
-        const response = await fetch(`http://localhost:3000/icecreams?type=${this.selectedType}&gluten=${this.selectedGluten}&alcool=${this.selectedAlcool}`);
+        const response = await fetch(`http://localhost:3000/icecreams?type=${this.selectedType}&gluten=${this.selectedGluten}&alcool=${this.selectedAlcool}&category=${this.selectedCategory}`);
         const icecreams = await response.json();
         this.parfums = icecreams;
       } catch (error) {
@@ -69,21 +69,37 @@ export default {
         <input name="gluten" type="radio" id="allGluten" value="All" v-model="selectedGluten">
         <label for="allGluten">Tous</label>
         <br>
-        <input name="gluten" type="radio" id="true" value="true" v-model="selectedGluten">
-        <label for="true">Avec gluten</label>
+        <input name="gluten" type="radio" id="glutenTrue" value="true" v-model="selectedGluten">
+        <label for="glutenTrue">Avec gluten</label>
         <br>
-        <input name="gluten" type="radio" id="false" value="false" v-model="selectedGluten">
-        <label for="false">Sans gluten</label>
+        <input name="gluten" type="radio" id="glutenFalse" value="false" v-model="selectedGluten">
+        <label for="glutenFalse">Sans gluten</label>
         <br>
         <br>
         <input name="alcool" type="radio" id="allAlcool" value="All" v-model="selectedAlcool">
-        <label for="allGluten">Tous</label>
+        <label for="allAlcool">Tous</label>
         <br>
-        <input name="alcool" type="radio" id="true" value="true" v-model="selectedAlcool">
-        <label for="true">Avec alcool</label>
+        <input name="alcool" type="radio" id="alcoolTrue" value="true" v-model="selectedAlcool">
+        <label for="alcoolTrue">Avec alcool</label>
         <br>
-        <input name="alcool" type="radio" id="false" value="false" v-model="selectedAlcool">
-        <label for="false">Sans alcool</label>
+        <input name="alcool" type="radio" id="alcoolFalse" value="false" v-model="selectedAlcool">
+        <label for="alcoolFalse">Sans alcool</label>
+        <br>
+        <br>
+        <select v-model="selectedCategory">
+          <option value="All">Tous</option>
+          <option value="Les alcoolisées">Les alcoolisées</option>
+          <option value="Les fruits à coques">Les fruits à coques</option>
+          <option value="Les Insolites">Les insolites</option>
+          <option value="Les cafés">Les cafés</option>
+          <option value="Les fruits rouges">Les fruits rouges</option>
+          <option value="Les surprenants">Les surprenants</option>
+          <option value="Les classiques">Les classiques</option>
+          <option value="Les Agrumes">Les agrumes</option>
+          <option value="Les Chocolats">Les chocolats</option>
+          <option value="Les exotiques">Les exotiques</option>
+        </select>
+        <br>
         <br>
         <input type="submit" value="Valider">
       </form>

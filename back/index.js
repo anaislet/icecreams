@@ -15,7 +15,8 @@ app.get("/icecreams", async (req, res, next) => {
   const type = req.query.type
   const gluten = req.query.gluten
   const alcool = req.query.alcool
-  const icecreams = await getAllIcecreams(type, gluten, alcool)
+  const category = req.query.category
+  const icecreams = await getAllIcecreams(type, gluten, alcool, category)
  res.json(icecreams);
 });
 
