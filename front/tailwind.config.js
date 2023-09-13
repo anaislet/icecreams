@@ -17,12 +17,15 @@ module.exports = {
       'bubble-pink': '#FDA897',
       'pink-red': '#B90100',
       'white': '#ffffff',
+      'raspberry': 'rgba(231, 65, 77, 0.7)',
     },
     backgroundColor: {
       'bubble-pink': '#FDA897',
       'pink-red': 'rgba(185, 1, 0, 0.3)',
       'white': '#ffffff',
-      'beige': '#E8E4E1'
+      'beige': '#fcfbfb',
+      'raspberry': 'rgba(231, 65, 77, 0.7)',
+      'raspberry-light': 'rgba(231, 65, 77, 0.5)'
     }
   },
   variants: {

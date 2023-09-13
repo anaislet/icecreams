@@ -17,6 +17,7 @@ export const useSelectionStore = defineStore("selection", () => {
   function removeFlavour(index) {
     flavours.value.splice(index, 1);
     isSaved.value = false;
+    isInformationsSaved.value = false;
   }
 
   function save() {

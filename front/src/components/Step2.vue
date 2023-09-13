@@ -26,19 +26,19 @@ async function goToStep3() {
 </script>
 
 <template>
-  <div class="w-screen h-screen bg-pink-red">
-    <h1 class="text-6xl font-sacramento pt-10 pl-10 neonText" id="title2">
-      Etape 2
+  <div id="background" class="w-screen h-screen ">
+    <h1 class="text-7xl font-sacramento pt-10 pl-10 neonText" id="title2">
+      Glace et santé
     </h1>
-    <div class="flex flex-row pt-10 pl-10">
+    <div class="flex flex-row pt-8 pl-10">
       <div class="flex flex-col w-1/3 justify-between items-center">
         <infoCard :flavour="selectionStore.flavours[0]"></infoCard>
         <button
           v-if="selectionStore.isFull === true"
-          class="border bg-pink-red rounded-lg p-4 text-3xl font-medium text-white font-sacramento border-none w-fit"
+          class=" bg-raspberry rounded-lg p-4 text-5xl mt-10 font-medium text-white font-sacramento"
           @click="goToStep3()"
         >
-          Valider
+          Je choisis cette glace !
         </button>
       </div>
       <div class="flex flex-col w-1/3 justify-center items-center">
@@ -54,3 +54,9 @@ async function goToStep3() {
     </div>
   </div>
 </template>
+
+<style scoped>
+  #background {
+    background: radial-gradient(circle, rgba(252,251,251,1) 0%, rgba(231,65,77,0.5) 40%);
+  }
+</style>

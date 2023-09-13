@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <div
-    class="flex w-[160px] h-[160px] p-2 justify-center items-end mb-5 rounded-full"
+    class="flex w-[180px] h-[180px] p-2 justify-center items-end mb-5 rounded-full"
     :style="{ backgroundColor: color }"
   >
     <div class="flex flex-row justify-between"></div>

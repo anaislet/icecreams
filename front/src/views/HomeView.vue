@@ -14,6 +14,6 @@ const selectionStore = useSelectionStore();
     <FrontPage></FrontPage>
     <Step1></Step1>
     <Step2 v-if="selectionStore.isSaved === true"></Step2>
-    <Step3 v-if="selectionStore.isInformationsSaved === true"></Step3>
+    <Step3 v-if="selectionStore.isInformationsSaved === true && selectionStore.isSaved === true"></Step3>
   </main>
 </template>

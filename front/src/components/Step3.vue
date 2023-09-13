@@ -48,47 +48,54 @@ function containingGluten(flavours) {
 </script>
 
 <template>
-  <div class="w-screen h-screen bg-pink-red">
-    <h1 class="text-6xl font-sacramento pt-10 pl-10 neonText" id="title3">
-      Etape 3
+  <div class="w-screen h-screen bg-raspberry-light">
+    <h1 class="text-7xl font-sacramento pt-10 pl-10 neonText" id="title3">
+      Ma création
     </h1>
     <div class="flex flex-row h-5/6">
-      <div class="flex flex-col w-1/2 h-full bg-white my-10 mx-10 items-center">
-        <h2 class="font-montserrat font-light text-3xl my-10">{{ title }}</h2>
+      <div class="flex flex-col w-1/2 h-full bg-beige my-10 mx-10 items-center rounded">
+        <div v-if="title == ''" class="h-[140px]"></div>
+        <h2 v-else class="text-6xl font-sacramento my-[40px]">{{ title }}</h2>
         <ScoopComponent
           v-for="flavour in selectionStore.flavours"
           :color="flavour.color"
         />
-        <div>
-          <h2 v-for="flavour in selectionStore.flavours">
+        <div class="flex flex-row gap-10 my-auto">
+          <h2 v-for="flavour in selectionStore.flavours" class="font-montserrat font-light text-2xl">
             {{ flavour.name }}
           </h2>
         </div>
       </div>
       <div
-        class="flex flex-col w-1/2 h-full bg-white my-10 mr-10 items-center justify-around"
+        class="flex flex-col w-1/2 h-full bg-beige my-10 mr-10 pl-10 items-start justify-around rounded"
       >
-        <h1>Choisissez un nom pour votre coupe glacée</h1>
+      <div>
+        <h1 class="mb-2 font-montserrat font-light text-2xl">Je choisis un nom pour ma coupe glacée :</h1>
         <input
           type="text"
-          placeholder="Donner un titre à votre composition"
-          class="w-2/3 h-20"
+          placeholder="Donner un titre à votre composition (max 40 carac.)"
+          maxlength="40"
+          class="h-20 w-full border p-3"
           v-model="title"
         />
-        <div>Cette glace a déjà été créé {{ selectionStore.compositionCount }} fois !</div>
-        <p v-if="alcool == true">Cette coupe glacée contient de l'alcool.</p>
-        <p v-else>Cette coupe glacée ne contient pas d'alcool.</p>
-        <p v-if="gluten == true">Cette coupe glacée contient du gluten.</p>
-        <p v-else>Cette coupe glacée ne contient pas de gluten.</p>
-        <div>
-          <p>Informations nutritionnelles concernant ma coupe glacée :</p>
+      </div>
+        <div v-if="selectionStore.compositionCount == 1" class="mb-2 font-montserrat font-medium text-2xl text-raspberry">Vous êtes le.a premier.ère à avoir créé cette coupe glacée !</div>
+        <div v-else class="mb-2 font-montserrat font-medium text-2xl text-raspberry">Vous êtes le.a {{ selectionStore.compositionCount }}ème à avoir créé cette coupe glacée !</div>
+        <div class="mb-2 font-montserrat font-light text-lg flex flex-col gap-3">
+          <p v-if="alcool == true">⚠️ Cette coupe glacée contient de l'alcool.</p>
+          <p v-else>✔️ Cette coupe glacée ne contient pas d'alcool.</p>
+          <p v-if="gluten == true">⚠️ Cette coupe glacée contient du gluten.</p>
+          <p v-else>✔️ Cette coupe glacée ne contient pas de gluten.</p>
+        </div>
+        <div class="mb-2 font-montserrat font-light text-lg">
+          <p class="mb-3">Informations nutritionnelles concernant ma coupe glacée :</p>
           <p>Total calories : {{ total.totalCal }} kcal</p>
           <p>Total matières grasses : {{ total.totalMg }} g</p>
           <p>Total protéine : {{ total.totalProt }} g</p>
           <p>Total glucide : {{ total.totalGlu }} g</p>
         </div>
         <button
-          class="border bg-pink-red rounded-lg p-4 text-3xl font-medium text-white font-sacramento border-none w-fit"
+          class="border bg-raspberry rounded-lg p-4 text-5xl mt-10 font-medium text-white font-sacramento"
           @click="editPDF()"
         >
           Editer ma fiche recette
