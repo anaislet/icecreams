@@ -301,8 +301,8 @@ async function editPDF() {
           v-for="flavour in selectionStore.flavours"
           :color="flavour.color"
         />
-        <div class="flex flex-row gap-10 my-auto">
-          <h2 v-for="flavour in selectionStore.flavours" class="font-montserrat font-light text-2xl">
+        <div class="flex flex-row justify-center my-auto">
+          <h2 v-for="flavour in selectionStore.flavours" class="font-montserrat font-light text-2xl mx-5 text-center">
             {{ flavour.name }}
           </h2>
         </div>
@@ -316,7 +316,7 @@ async function editPDF() {
           type="text"
           placeholder="Donner un titre à votre composition (max 40 carac.)"
           maxlength="40"
-          class="h-20 w-full border p-3 font-montserrat font-light text-2xl"
+          class="h-20 w-full border p-3 font-montserrat font-light"
           v-model="title"
         />
       </div>
@@ -345,3 +345,13 @@ async function editPDF() {
     </div>
   </div>
 </template>
+
+<style>
+  input {
+    font-size: 24px;
+  }
+
+  input::placeholder {
+    font-size: 18px;
+  }
+</style>
