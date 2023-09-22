@@ -19,7 +19,8 @@ export default {
       selectedType: "All",
       selectedGluten: "All",
       selectedAlcool: "All",
-      selectedCategory: "All"
+      selectedCategory: "All",
+      showWindow: false
     };
   },
   methods: {
@@ -51,17 +52,30 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    handleScroll() {
+      const step1 = document.getElementById('step1')
+      if(step1) {
+        const rect = step1.getBoundingClientRect()
+        this.showWindow = rect.top <= 0 && rect.bottom >= 0
+      }
     }
   },
   created() {
     this.getParfums()
     this.getCategories()
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
 };
 </script>
 
 <template>
-  <div class="w-screen min-h-screen bg-raspberry-light pb-10">
+  <div class="w-screen min-h-screen bg-raspberry-light pb-10" id="step1">
     <h1 class="text-7xl font-sacramento pt-10 pl-10 neonText" id="title1">
       Je choisis mes parfums de glace
     </h1>
@@ -122,19 +136,21 @@ export default {
           />
         </div>
         <div class="mr-[3%] flex flex-col items-center">
-          <p class="text-5xl font-light text-gray-600 font-sacramento mb-10">Votre coupe glacée</p>
-          <FlavourComponent
-            v-for="(flavour, index) in selectionStore.flavours"
-            :infos="flavour"
-            :index="index"
-          />
-          <button
-            v-if="selectionStore.isFull === true"
-            class="border bg-raspberry rounded-lg p-4 text-5xl mt-10 font-medium text-white font-sacramento"
-            @click="goToStep2()"
-          >
-            Je valide !
-          </button>
+          <div :class="{ 'floating-window': showWindow }" class="flex flex-col items-center">
+            <p class="text-5xl font-light text-gray-600 font-sacramento mb-10">Votre coupe glacée</p>
+            <FlavourComponent
+              v-for="(flavour, index) in selectionStore.flavours"
+              :infos="flavour"
+              :index="index"
+            />
+            <button
+              v-if="selectionStore.isFull === true"
+              class="border bg-raspberry rounded-lg p-4 text-5xl mt-10 font-medium text-white font-sacramento"
+              @click="goToStep2()"
+            >
+              Je valide !
+            </button>
+          </div>
       </div>
       </div>
     </div>
@@ -193,4 +209,11 @@ export default {
     color: rgb(75 85 99);
     font-size: 16px;
   }
+</style>
+
+<style scoped>
+.floating-window {
+  position: sticky;
+  top: 40px;
+}
 </style>
