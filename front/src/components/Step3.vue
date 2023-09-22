@@ -61,6 +61,8 @@ async function editPDF() {
   // Créez un nouveau document PDF
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage([595.28, 841.89]);
+  const pageWidth = page.getSize().width
+  const pageHeight = page.getSize().height;
 
   // Chargez les polices personnalisées depuis un fichier
   const customFontBytesMontserrat = await fetch('../src/assets/Montserrat-VariableFont_wght.ttf').then((response) => response.arrayBuffer());
@@ -69,22 +71,34 @@ async function editPDF() {
   const customFontSacramento = await pdfDoc.embedFont(customFontBytesSacramento);
   const customFontMontserrat = await pdfDoc.embedFont(customFontBytesMontserrat);
 
+  // Ajouter un cadre
+  const borderWidth = 3;
+
+  const raspberryColor = {red : 231, green : 65, blue : 77}
+  page.drawRectangle({
+    x: 20,
+    y: 20,
+    width: pageWidth-40,
+    height: pageHeight-40,
+    borderWidth: borderWidth,
+    borderColor: rgb(raspberryColor.red/255, raspberryColor.green/255, raspberryColor.blue/255),
+    opacity: 0.5,
+    borderDashArray: []
+  });
 
   // Ajouter un titre centré sur la page
-  const pageWidth = page.getSize().width
-  const pageHeight = page.getSize().height;
-  const titleWidth = customFontSacramento.widthOfTextAtSize(this.title, 40);
+  const titleWidth = customFontSacramento.widthOfTextAtSize(this.title, 50);
   const centerX = (pageWidth - titleWidth) / 2;
 
   page.drawText(this.title, { 
     x: centerX,
     y: 770,
-    size: 40,
+    size: 50,
     font: customFontSacramento,
     color: rgb(0.2196, 0.2196, 0.2196) 
   });
 
-  // Définissez les coordonnées des cercles et l'image
+  // Définissez les coordonnées des cercles
   const circles = [
     { x: 240, y: 620, radius: 60, color: hexToRgb(selectionStore.flavours[0].color) },
     { x: 300, y: 670, radius: 60, color: hexToRgb(selectionStore.flavours[1].color) },
@@ -110,10 +124,10 @@ async function editPDF() {
   page.drawImage(image, {
     x: 90,
     y: 300,
-    opacity: 0.5,
     width: 320,
     height: 320,
     rotation: 0,
+    blendMode: 'Multiply'
   });
 
   // Ajouter les parfums sélectionnés
@@ -130,108 +144,52 @@ async function editPDF() {
   const flavor2Width = customFontMontserrat.widthOfTextAtSize(flavor2, 20);
   const totalWidth = flavor0Width + flavor1Width + flavor2Width + 20
 
-if(totalWidth < availableWidth) {
-  const flavors = flavor0 + ' - ' + flavor1 + ' - ' + flavor2
-  const centerXFlavors = (pageWidth - totalWidth) / 2;
-  page.drawText(flavors, { x: centerXFlavors, y: 234, size: 20, font: customFontMontserrat, color: rgb(0, 0, 0) });
+  if(totalWidth < availableWidth) {
+    const flavors = flavor0 + ' - ' + flavor1 + ' - ' + flavor2
+    const centerXFlavors = (pageWidth - totalWidth) / 2;
+    page.drawText(flavors, { x: centerXFlavors, y: 254, size: 20, font: customFontMontserrat, color: rgb(0, 0, 0) });
 
-}
-else {
-  const centerXFlavor0 = (pageWidth - flavor0Width) / 2;
-  const centerXFlavor1 = (pageWidth - flavor1Width) / 2;
-  const centerXFlavor2 = (pageWidth - flavor2Width) / 2;
+  }
+  else {
+    const centerXFlavor0 = (pageWidth - flavor0Width) / 2;
+    const centerXFlavor1 = (pageWidth - flavor1Width) / 2;
+    const centerXFlavor2 = (pageWidth - flavor2Width) / 2;
 
-  page.drawText(flavor0, { 
-    x: centerXFlavor0,
-    y: 258,
-    size: 20,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
+    page.drawText(flavor0, { 
+      x: centerXFlavor0,
+      y: 278,
+      size: 20,
+      font: customFontMontserrat,
+      color: rgb(0, 0, 0) 
+    });
 
-  page.drawText(flavor1, { 
-    x: centerXFlavor1,
-    y: 234,
-    size: 20,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
+    page.drawText(flavor1, { 
+      x: centerXFlavor1,
+      y: 254,
+      size: 20,
+      font: customFontMontserrat,
+      color: rgb(0, 0, 0) 
+    });
 
-  page.drawText(flavor2, { 
-    x: centerXFlavor2,
-    y: 210,
-    size: 20,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
-}
-  // Ajouter les informations de présence d'alcool ou de gluten
-
-  const withAlcool = 'Cette coupe glacée contient de l\'alcool.'
-  const withoutAlcool = 'Cette coupe glacée ne contient pas d\'alcool.'
-  const withGluten = 'Cette coupe glacée contient du gluten.'
-  const withoutGluten = 'Cette coupe glacée ne contient pas de gluten.'
-
-  const alcoolWidth = customFontMontserrat.widthOfTextAtSize(withAlcool, 10);
-  const centerXWithAlcool = (pageWidth - alcoolWidth) / 2;
-
-  const NoAlcoolWidth = customFontMontserrat.widthOfTextAtSize(withoutAlcool, 10);
-  const centerXWithoutAlcool = (pageWidth - NoAlcoolWidth) / 2;
-
-  const glutenWidth = customFontMontserrat.widthOfTextAtSize(withGluten, 10);
-  const centerXGluten = (pageWidth - glutenWidth) / 2;
-
-  const NoGlutenWidth = customFontMontserrat.widthOfTextAtSize(withoutGluten, 10);
-  const centerXWithoutGluten = (pageWidth - NoGlutenWidth) / 2;
-
-if(this.alcool ==  true) {
-  page.drawText(withAlcool, { 
-    x: centerXWithAlcool,
-    y: 95,
-    size: 10,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
-}
-else {
-  page.drawText(withoutAlcool, { 
-    x: centerXWithoutAlcool,
-    y: 95,
-    size: 10,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
-}
-
-if(this.gluten == true) {
-  page.drawText(withGluten, { 
-    x: centerXGluten,
-    y: 80,
-    size: 10,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
-}
-else {
-  page.drawText(withoutGluten, { 
-    x: centerXWithoutGluten,
-    y: 80,
-    size: 10,
-    font: customFontMontserrat,
-    color: rgb(0, 0, 0) 
-  });
-}
+    page.drawText(flavor2, { 
+      x: centerXFlavor2,
+      y: 230,
+      size: 20,
+      font: customFontMontserrat,
+      color: rgb(0, 0, 0) 
+    });
+  }
 
   // Ajouter les informations nutritionnelles
-  const borderNutriWidth = 1;
+  const borderNutriWidth = 0.1;
 
   page.drawRectangle({
     x: 40,
-    y: 65,
+    y: 85,
     width: pageWidth-80,
-    height: 100,
+    height: 110,
     borderWidth: borderNutriWidth,
-    borderColor: rgb(0.2196, 0.2196, 0.2196),
+    borderColor: rgb(0.3764, 0.3764, 0.3764),
     opacity: 0.5,
     borderDashArray: []
   });
@@ -240,26 +198,67 @@ else {
   const TotalMg = 'Total matières grasses : ' + this.total.totalMg + ' g' 
   const TotalProt = 'Total protéine : ' + this.total.totalProt + ' g'
   const TotalGlu = 'Total glucide : ' + this.total.totalGlu + ' g'
-  
-  page.drawText(TotalCal, { x: 60, y: 145, size: 10, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196) });
-  page.drawText(TotalMg, { x: 60, y: 125, size: 10, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196) });
-  page.drawText(TotalProt, { x: 340, y: 145, size: 10, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196) });
-  page.drawText(TotalGlu, { x: 340, y: 125, size: 10, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196) });
 
-  // Ajouter un cadre
-  const borderWidth = 3;
+  page.drawText(TotalCal, { x: 60, y: 175, size: 15, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196) });
+  page.drawText(TotalMg, { x: 60, y: 155, size: 15, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196) });
+  page.drawText(TotalProt, { x: 400, y: 175, size: 15, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196), alignment: 'right' });
+  page.drawText(TotalGlu, { x: 400, y: 155, size: 15, font: customFontMontserrat, color: rgb(0.2196, 0.2196, 0.2196), alignment: 'right' });
 
-  const raspberryColor = {red : 231, green : 65, blue : 77}
-  page.drawRectangle({
-    x: 20,
-    y: 20,
-    width: pageWidth-40,
-    height: pageHeight-40,
-    borderWidth: borderWidth,
-    borderColor: rgb(raspberryColor.red/255, raspberryColor.green/255, raspberryColor.blue/255),
-    opacity: 0.5,
-    borderDashArray: []
-  });
+  // Ajouter les informations de présence d'alcool ou de gluten
+  const withAlcool = 'Cette coupe glacée contient de l\'alcool.'
+  const withoutAlcool = 'Cette coupe glacée ne contient pas d\'alcool.'
+  const withGluten = 'Cette coupe glacée contient du gluten.'
+  const withoutGluten = 'Cette coupe glacée ne contient pas de gluten.'
+
+  // const alcoolWidth = customFontMontserrat.widthOfTextAtSize(withAlcool, 15);
+  // const centerXWithAlcool = (pageWidth - alcoolWidth) / 2;
+
+  // const NoAlcoolWidth = customFontMontserrat.widthOfTextAtSize(withoutAlcool, 15);
+  // const centerXWithoutAlcool = (pageWidth - NoAlcoolWidth) / 2;
+
+  // const glutenWidth = customFontMontserrat.widthOfTextAtSize(withGluten, 15);
+  // const centerXGluten = (pageWidth - glutenWidth) / 2;
+
+  // const NoGlutenWidth = customFontMontserrat.widthOfTextAtSize(withoutGluten, 15);
+  // const centerXWithoutGluten = (pageWidth - NoGlutenWidth) / 2;
+
+  if(this.alcool ==  true) {
+    page.drawText(withAlcool, { 
+      x: 60,
+      y: 115,
+      size: 15,
+      font: customFontMontserrat,
+      color: rgb(0.2196, 0.2196, 0.2196) 
+    });
+  }
+  else {
+    page.drawText(withoutAlcool, { 
+      x: 60,
+      y: 115,
+      size: 15,
+      font: customFontMontserrat,
+      color: rgb(0.2196, 0.2196, 0.2196) 
+    });
+  }
+
+  if(this.gluten == true) {
+    page.drawText(withGluten, { 
+      x: 60,
+      y: 100,
+      size: 15,
+      font: customFontMontserrat,
+      color: rgb(0.2196, 0.2196, 0.2196)
+    });
+  }
+  else {
+    page.drawText(withoutGluten, { 
+      x: 60,
+      y: 100,
+      size: 15,
+      font: customFontMontserrat,
+      color: rgb(0.2196, 0.2196, 0.2196) 
+    });
+  }
 
   // Ajouter une signature
   page.drawText('Gelato Creazioni', { 
