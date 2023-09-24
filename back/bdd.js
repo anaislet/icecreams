@@ -1,37 +1,99 @@
-const { Sequelize, QueryTypes } = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize')
 
-// const sequelize = new Sequelize('icecream', 'postgres', 'postgres', { host: 'localhost', port: 5432, dialect: 'postgres' })
 const sequelize = new Sequelize('icecreams', 'icecreams', 'berthillon', { host: 'localhost', port: 5432, dialect: 'postgres' })
 
+const Flavors = sequelize.define('Flavors', {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+    },
+    name: {
+        type: DataTypes.STRING
+    },
+    alcool: {
+        type: DataTypes.BOOLEAN
+    },
+    kcal: {
+        type: DataTypes.INTEGER
+    },
+    matgr: {
+        type: DataTypes.FLOAT
+    },
+    protein: {
+        type: DataTypes.INTEGER
+    },
+    glucide: {
+        type: DataTypes.INTEGER
+    },
+    gluten: {
+        type: DataTypes.BOOLEAN
+    },
+    icecream: {
+        type: DataTypes.BOOLEAN
+    },
+    sorbet: {
+        type: DataTypes.BOOLEAN
+    },
+    category: {
+        type: DataTypes.STRING
+    },
+    color: {
+        type: DataTypes.STRING
+    }
+}, {
+    tableName: 'flavors',
+    timestamps: false
+})
+
+const Compositions = sequelize.define('Compositions', {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    flavor1: {
+        type: DataTypes.INTEGER
+    },
+    flavor2: {
+        type: DataTypes.INTEGER
+    },
+    flavor3: {
+        type: DataTypes.INTEGER
+    },
+    count: {
+        type: DataTypes.INTEGER
+    },
+}, {
+    tableName: 'compositions',
+    timestamps: false
+})
+
 async function getAllIcecreams(type, gluten, alcool, category) {
-    let typeQuery = ""
-    let glutenQuery = ""
-    let alcoolQuery  = ""
-    let categoryQuery = ""
+    const where = {}
     if(type == "Icecream") {
-        typeQuery = " AND icecream = true"
+        where.icecream = true
     }
     else if(type == "Sorbet") {
-        typeQuery = " AND sorbet = true"
+        where.sorbet = true
     }
     if(gluten == "true") {
-        glutenQuery = " AND gluten = true"
+        where.gluten = true
     }
     else if(gluten == "false") {
-        glutenQuery = " AND gluten = false"
+        where.gluten = false
     }
     if(alcool == "true") {
-        alcoolQuery = " AND alcool = true"
+        where.alcool = true
     }
     else if(alcool == "false") {
-        alcoolQuery = " AND alcool = false"
+        where.alcool = false
     }
     if(category != "All" && category != undefined) {
-        categoryQuery = ` AND category = '${category}'`
+        where.category = category
     }
-    const sql = `SELECT * FROM flavors WHERE 1=1${typeQuery}${glutenQuery}${alcoolQuery}${categoryQuery};`
-
-    const icecreams = await sequelize.query(sql, {type: QueryTypes.SELECT})
+    const icecreams = await Flavors.findAll({where: where})
     return icecreams
 }
 
@@ -39,26 +101,36 @@ async function postIcecream(flavor1, flavor2, flavor3) {
     const flavors = [flavor1, flavor2, flavor3].map(f => parseInt(f))
     const sortedFlavors = flavors.sort()
 
-    const sql1 = `SELECT * FROM compositions WHERE flavor1 = ${sortedFlavors[0]} AND flavor2 = ${sortedFlavors[1]} AND flavor3 = ${sortedFlavors[2]}`
-    const icecreamsSearch = await sequelize.query(sql1, {type: QueryTypes.SELECT})
+    const icecreamsSearch = await Compositions.findAll({where: {
+        flavor1: sortedFlavors[0],
+        flavor2: sortedFlavors[1],
+        flavor3: sortedFlavors[2],
+    }})
 
     if(icecreamsSearch.length == 0) {
-        const sql2 = `INSERT INTO compositions VALUES (DEFAULT, ${sortedFlavors[0]}, ${sortedFlavors[1]}, ${sortedFlavors[2]}, 1);`
-        const icecreams = await sequelize.query(sql2, {type: QueryTypes.INSERT})
+        const icecreams = await Compositions.create({
+            flavor1: sortedFlavors[0],
+            flavor2: sortedFlavors[1],
+            flavor3: sortedFlavors[2],
+            count: 1
+        })
         return {'count': 1}
     }
     else {
-        const sql3 = `UPDATE compositions SET count = ${icecreamsSearch[0].count + 1}`
-        const icecreams = await sequelize.query(sql3, {type: QueryTypes.UPDATE})
+        const icecreams = await Compositions.update({
+            count: icecreamsSearch[0].count + 1
+        },{
+            where: {
+                id: icecreamsSearch[0].id
+            }
+        })
         return {'count': icecreamsSearch[0].count + 1}
     }
 }
 
 async function getAllCategories() {
-
-    const sql = `SELECT category FROM flavors GROUP BY category;`
-
-    const categories = await sequelize.query(sql, {type: QueryTypes.SELECT})
+    const categories = await Flavors.findAll({attributes: ['category'], group: 'category'})
     return categories
 }
+
 module.exports = { getAllIcecreams, postIcecream, getAllCategories }
