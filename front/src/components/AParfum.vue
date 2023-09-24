@@ -15,7 +15,7 @@ defineProps({
 });
 
 function displayIcecreamInformations(icecreamInfos) {
-  selectionStore.addFlavours(icecreamInfos);
+  selectionStore.addFlavors(icecreamInfos);
 }
 </script>
 

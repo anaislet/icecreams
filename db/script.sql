@@ -45,4 +45,4 @@ ALTER TABLE compositions ADD CONSTRAINT fk_compositions_flavors3 FOREIGN KEY (fl
 INSERT INTO compositions VALUES (DEFAULT, 1, 2, 7, 1);
 
 -- Pour importer un fichier csv. On a été obligé de faire un \copy et de mettre un point en séparateur de nb décimal dans le fichier excel car i\copy ne permet de préciser le séparateur 
-\copy flavors (name, id, alcool, kcal, matgr, protein, glucide, gluten, icecream, sorbet, category, color) FROM '/home/anaislet/Bureau/parfum_glace.csv' DELIMITER ';' CSV HEADER;
+\copy flavors (name, id, alcool, kcal, matgr, protein, glucide, gluten, icecream, sorbet, category, color) FROM '/home/anaislet/Bureau/parfum_glace.csv' DELIMITER ',' CSV HEADER;

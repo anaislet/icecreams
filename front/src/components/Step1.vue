@@ -1,6 +1,6 @@
 <script setup lang="js">
 import AParfum from "../components/AParfum.vue";
-import FlavourComponent from "../components/FlavourComponent.vue";
+import FlavorComponent from "../components/FlavorComponent.vue";
 import { useSelectionStore } from "@/stores/selection";
 
 const selectionStore = useSelectionStore();
@@ -138,9 +138,9 @@ export default {
         <div class="mr-[3%] flex flex-col items-center">
           <div :class="{ 'floating-window': showWindow }" class="flex flex-col items-center">
             <p class="text-5xl font-light text-gray-600 font-sacramento mb-10">Votre coupe glacée</p>
-            <FlavourComponent
-              v-for="(flavour, index) in selectionStore.flavours"
-              :infos="flavour"
+            <FlavorComponent
+              v-for="(flavor, index) in selectionStore.flavors"
+              :infos="flavor"
               :index="index"
             />
             <button

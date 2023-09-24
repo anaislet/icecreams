@@ -13,7 +13,7 @@ onMounted(() => {
 
 async function goToStep3() {
   try {
-      const response = await fetch(`http://localhost:3000/composition/${selectionStore.flavours[0].id}/${selectionStore.flavours[1].id}/${selectionStore.flavours[2].id}`, {
+      const response = await fetch(`http://localhost:3000/composition/${selectionStore.flavors[0].id}/${selectionStore.flavors[1].id}/${selectionStore.flavors[2].id}`, {
         method: 'POST'
       })
       const composition = await response.json()
@@ -32,7 +32,7 @@ async function goToStep3() {
     </h1>
     <div class="flex flex-row pt-8 pl-10">
       <div class="flex flex-col w-1/3 justify-between items-center">
-        <infoCard :flavour="selectionStore.flavours[0]"></infoCard>
+        <infoCard :flavor="selectionStore.flavors[0]"></infoCard>
         <button
           v-if="selectionStore.isFull === true"
           class=" bg-raspberry rounded-lg p-4 text-5xl mt-10 font-medium text-white font-sacramento"
@@ -43,13 +43,13 @@ async function goToStep3() {
       </div>
       <div class="flex flex-col w-1/3 justify-center items-center">
         <ScoopComponent
-          v-for="flavour in selectionStore.flavours"
-          :color="flavour.color"
+          v-for="flavor in selectionStore.flavors"
+          :color="flavor.color"
         />
       </div>
       <div class="flex flex-col w-1/3 justify-center items-center">
-        <infoCard :flavour="selectionStore.flavours[1]"></infoCard>
-        <infoCard :flavour="selectionStore.flavours[2]"></infoCard>
+        <infoCard :flavor="selectionStore.flavors[1]"></infoCard>
+        <infoCard :flavor="selectionStore.flavors[2]"></infoCard>
       </div>
     </div>
   </div>

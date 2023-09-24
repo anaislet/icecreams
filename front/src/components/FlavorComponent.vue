@@ -14,8 +14,8 @@ defineProps({
   },
 });
 
-function removeFlavour(index) {
-  selectionStore.removeFlavour(index);
+function removeFlavor(index) {
+  selectionStore.removeFlavor(index);
 }
 </script>
 
@@ -29,7 +29,7 @@ function removeFlavour(index) {
         <img
         :src="IconClose"
         class="w-7 cursor-pointer"
-        @click="removeFlavour(index)"
+        @click="removeFlavor(index)"
         />
       </div>
     </div>
