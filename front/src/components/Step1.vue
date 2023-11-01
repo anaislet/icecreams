@@ -137,7 +137,7 @@ export default {
         </div>
         <div class="mr-[3%] flex flex-col items-center">
           <div :class="{ 'floating-window': showWindow }" class="flex flex-col items-center">
-            <p class="text-5xl font-light text-gray-600 font-sacramento mb-10">Votre coupe glacée</p>
+            <p class="text-5xl font-light text-gray-600 font-sacramento mb-10">Ma coupe glacée</p>
             <FlavorComponent
               v-for="(flavor, index) in selectionStore.flavors"
               :infos="flavor"

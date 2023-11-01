@@ -12,7 +12,7 @@ function goToStep1() {
     </h1>
     <div class="w-[40%] ml-20 text-xl text-gray-600">
       <p class="font-montserrat font-light">
-        Plongez dans un tourbillon de créativité glacée avec Gelato Creazioni !
+        Plongez dans un tourbillon de créativité givrée avec Gelato Creazioni !
         Choisissez 3 parfums pour créer votre chef-d'œuvre glacé. Découvrez si
         votre combo est un modèle nutritif ou une rockstar gourmande.
         Personnalisez votre création avec un nom original et savoureux. Et tada !

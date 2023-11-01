@@ -28,7 +28,7 @@ async function goToStep3() {
 <template>
   <div id="background" class="w-screen h-screen ">
     <h1 class="text-7xl font-sacramento pt-10 pl-10 neonText" id="title2">
-      Glace et santé
+      Nutri-Glace
     </h1>
     <div class="flex flex-row pt-8 pl-10">
       <div class="flex flex-col w-1/3 justify-between items-center">
