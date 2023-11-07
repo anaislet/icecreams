@@ -2,10 +2,10 @@
 -- Ouverture de psql : psql
 
 -- Création d'un user postgres via terminal
-CREATE USER icecreams WITH PASSWORD 'berthillon';
+--Pour une utilisation en local : CREATE USER icecreams WITH PASSWORD 'berthillon';
 
 -- Création de la db via terminal
-CREATE DATABASE icecreams OWNER icecreams;
+--Pour une utilisation en local : CREATE DATABASE icecreams OWNER icecreams;
 
 -- Sortir de psql : \q
 -- Changer de user Linux : exit
@@ -32,17 +32,27 @@ CREATE TABLE flavors(
 ALTER TABLE IF EXISTS flavors OWNER to icecreams;
 
 -- Création d'un parfum dans la table icecreams
-INSERT INTO flavors VALUES (1, 'caramel');
+-- INSERT INTO flavors VALUES (1, 'caramel');
 
 --Pour visualiser les db : \l
 
 DROP TABLE IF EXISTS compositions;
-CREATE TABLE compositions(id SERIAL PRIMARY KEY NOT NULL, flavor1 INT, flavor2 INT, flavor3 INT, count INT);
+
+CREATE TABLE compositions(
+    id SERIAL PRIMARY KEY NOT NULL,
+    flavor1 INT,
+    flavor2 INT,
+    flavor3 INT,
+    count INT
+    );
+
 ALTER TABLE IF EXISTS compositions OWNER to icecreams;
+
 ALTER TABLE compositions ADD CONSTRAINT fk_compositions_flavors1 FOREIGN KEY (flavor1) REFERENCES flavors (id);
 ALTER TABLE compositions ADD CONSTRAINT fk_compositions_flavors2 FOREIGN KEY (flavor2) REFERENCES flavors (id);
 ALTER TABLE compositions ADD CONSTRAINT fk_compositions_flavors3 FOREIGN KEY (flavor3) REFERENCES flavors (id);
-INSERT INTO compositions VALUES (DEFAULT, 1, 2, 7, 1);
+
+-- INSERT INTO compositions VALUES (DEFAULT, 1, 2, 7, 1);
 
 -- Pour importer un fichier csv. On a été obligé de faire un \copy et de mettre un point en séparateur de nb décimal dans le fichier excel car i\copy ne permet de préciser le séparateur 
-\copy flavors (name, id, alcool, kcal, matgr, protein, glucide, gluten, icecream, sorbet, category, color) FROM '/home/anaislet/Bureau/parfum_glace.csv' DELIMITER ',' CSV HEADER;
+\copy flavors (name, id, alcool, kcal, matgr, protein, glucide, gluten, icecream, sorbet, category, color) FROM '/docker-entrypoint-initdb.d/parfum_glace.csv' DELIMITER ',' CSV HEADER;

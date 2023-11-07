@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'front-page': "url('./src/assets/front-icecream.jpg')",
+        'front-page': "url('/front-icecream.jpg')",
       },
       fontFamily: {
         'vibur': ['Vibur', 'cursive'],

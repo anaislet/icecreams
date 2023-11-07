@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize')
 
-const sequelize = new Sequelize('icecreams', 'icecreams', 'berthillon', { host: 'localhost', port: 5432, dialect: 'postgres' })
+const sequelize = new Sequelize('icecreams', 'icecreams', 'berthillon', { host: 'db', port: 5432, dialect: 'postgres' })
 
 const Flavors = sequelize.define('Flavors', {
     id: {

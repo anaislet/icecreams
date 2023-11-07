@@ -19,8 +19,8 @@ const pageWidth = page.getSize().width
 const pageHeight = page.getSize().height;
 
 // Chargez les polices personnalisées depuis un fichier
-const customFontBytesMontserrat = await fetch('../src/assets/Montserrat-VariableFont_wght.ttf').then((response) => response.arrayBuffer());
-const customFontBytesSacramento = await fetch('../src/assets/Sacramento-Regular.ttf').then((response) => response.arrayBuffer());
+const customFontBytesMontserrat = await fetch('/Montserrat-VariableFont_wght.ttf').then((response) => response.arrayBuffer());
+const customFontBytesSacramento = await fetch('/Sacramento-Regular.ttf').then((response) => response.arrayBuffer());
 pdfDoc.registerFontkit(fontkit);
 const customFontSacramento = await pdfDoc.embedFont(customFontBytesSacramento);
 const customFontMontserrat = await pdfDoc.embedFont(customFontBytesMontserrat);
