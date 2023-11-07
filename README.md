@@ -12,6 +12,14 @@ Gelato Creazioni is a website developped with VueJS as frontend, ExpressJS as ba
 
 **DB:** PostgreSQL
 
+## Run Locally with Docker and Docker-compose
+
+sudo docker-compose up --build (avec affichage des logs)
+
+sudo docker-compose up --build -d (sans affichage des logs)
+
+sudo docker-compose down (pour stopper les containers et les supprimer)
+
 ## Run Locally
 
 Install Node.js : https://nodejs.org/en/download/
